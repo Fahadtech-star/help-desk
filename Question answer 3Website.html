@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A Forum</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-y: scroll;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #333;
+            position: relative;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        nav {
+            display: flex;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #00bcd4;
+        }
+        .question-list {
+            max-width: 1500px;
+            margin: auto;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 400px;
+            border: 1px solid white;
+            border-radius: 8px;
+        }
+        .question-item {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .answer {
+            display: none;
+            padding: 10px;
+            background: #333;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+        .question-item.active .answer,
+        .question-item.active .answer-input {
+            display: block;
+        }
+        .answer-input {
+            display: none;
+            margin-top: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #222;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 16px;
+        }
+        .social-icons a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 22px;
+            transition: color 0.3s;
+        }
+        .social-icons a:hover {
+            color: #00bcd4;
+        }
+    </style>
+    <script>
+        function toggleAnswer(element) {
+            element.classList.toggle('active');
+        }
+        
+        function postQuestion() {
+            let questionInput = document.getElementById("questionInput").value;
+            if (questionInput.trim() === "") {
+                alert("Please enter a question.");
+                return;
+            }
+            
+            let questionList = document.getElementById("questionList");
+            let newQuestion = document.createElement("div");
+            newQuestion.classList.add("question-item");
+            newQuestion.setAttribute("onclick", "toggleAnswer(this)");
+            newQuestion.innerHTML = `<h3>${questionInput}</h3>
+                                    <div class='answer'>No answer yet.</div>
+                                    <div class='answer-input'>
+                                        <input type='text' placeholder='Type your answer here...' />
+                                        <button onclick='postAnswer(this)'>Submit</button>
+                                    </div>`;
+            
+            questionList.appendChild(newQuestion);
+            document.getElementById("questionInput").value = "";
+            newQuestion.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function postAnswer(button) {
+            let inputField = button.previousElementSibling;
+            let answerText = inputField.value;
+            if (answerText.trim() === "") {
+                alert("Please enter an answer.");
+                return;
+            }
+            
+            let answerDiv = button.parentElement.previousElementSibling;
+            answerDiv.innerHTML = answerText;
+            inputField.value = "";
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">Q&A Forum</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="categories.html">Categories</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign Up</a>
+        </nav>
+    </header>
+    
+    <div class="question-list">
+        <h2>Ask a Question</h2>
+        <center><input type="text" id="questionInput" placeholder="Type your question here..." style="width: 50%; padding: 15px; border-radius: 5px;">
+        <button onclick="postQuestion()" style="padding: 15px; margin-top: 10px; background-color: #00bcd4; color: white; border: none; cursor: pointer;">Post</button>
+    </center>
+        <div id="questionList">
+            <div class="question-item" onclick="toggleAnswer(this)">
+                <h3>What is HTML?</h3>
+                <div class="answer">HTML stands for HyperText Markup Language. It is used to structure web pages.</div>
+                <div class='answer-input'>
+                    <input type='text' placeholder='Type your answer here...' />
+                    <button onclick='postAnswer(this)'>Submit</button>
+                </div>
+            </div>
+            <div class="question-item" onclick="toggleAnswer(this)">
+                <h3>What is CSS?</h3>
+                <div class="answer">CSS stands for Cascading Style Sheets. It is used to design and style web pages.</div>
+                <div class='answer-input'>
+                    <input type='text' placeholder='Type your answer here...' />
+                    <button onclick='postAnswer(this)'>Submit</button>
+                </div>
+            </div>
+            <div class="question-item" onclick="toggleAnswer(this)">
+                <h3>What is JavaScript?</h3>
+                <div class="answer">JavaScript is a programming language used for making web pages interactive.</div>
+                <div class='answer-input'>
+                    <input type='text' placeholder='Type your answer here...' />
+                    <button onclick='postAnswer(this)'>Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Q&A Forum. All Rights Reserved. | Developed by Fahad</p>
+        <div class="social-icons">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+        </div>
+    </footer>
+</body>
+</html>
